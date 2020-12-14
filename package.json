@@ -25,7 +25,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev:client": "react-scripts start",
-    "dev:api": "cd backend && nodemon server.js",
+    "dev:api": "cd backend && node server.js",
     "heroku-postbuild": "npm install npm && npm run build",
     "build": "react-scripts build",
     "test": "set NODE_ENV=test&& mocha --require @babel/register --require ignore-styles src/test/*.test.js",
