@@ -1,0 +1,63 @@
+{
+  "name": "react-crud",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.5.0",
+    "eslint": "^7.15.0",
+    "eslint-plugin-react": "^7.21.5",
+    "axios": "^0.21.0",
+    "bootstrap": "^4.5.3",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
+    "react-datepicker": "^3.3.0",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
+    "mongoose": "^5.8.10"
+  },
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev:client": "react-scripts start",
+    "dev:api": "cd backend && nodemon server.js",
+    "heroku-postbuild": "npm install npm && npm run build",
+    "build": "react-scripts build",
+    "test": "set NODE_ENV=test&& mocha --require @babel/register --require ignore-styles src/test/*.test.js",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/register": "^7.12.10",
+    "babel-plugin-inline-react-svg": "^1.1.2",
+    "babel-preset-react-app-babel-7": "^4.0.2-0",
+    "chai": "^4.2.0",
+    "chai-enzyme": "^1.0.0-beta.1",
+    "cheerio": "^1.0.0-rc.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "mocha": "^8.2.1"
+  },
+  "engines": {
+    "node": "12.14.1"
+  },
+  "proxy": "http://localhost:5000"
+}
