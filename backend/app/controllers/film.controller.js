@@ -156,6 +156,9 @@ exports.upload = (req, res) => {
   }
   // get upload file
   const { upload } = req.files
+  if (!upload.name.match(/\.(txt)$/i)) {
+    return res.status(400).send("Format file must be txt.")
+  }
   const buffer = upload.data
 
   const finalObject = misc
