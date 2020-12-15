@@ -25,6 +25,11 @@ const FilmDataService = {
   findByStar(star) {
     return http.get(`/films?stars=${star}`)
   },
+  findDuplicates(data) {
+    return http.post(`/films/duplicates`, {
+      data: {...data}
+    })
+  },
   upload(data) {
     return http.post(`/films/upload`, data, {
       headers: {

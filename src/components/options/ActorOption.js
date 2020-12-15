@@ -1,5 +1,6 @@
 import React from "react"
 import Actor from "../../images/actor.svg"
+import ModalDelete from "../modals/ModalDelete";
 
 const ActorOption = ({ setInputFields, inputFields }) => {
   const handleAddFields = () => {
@@ -75,13 +76,12 @@ const ActorOption = ({ setInputFields, inputFields }) => {
           Add&nbsp;Actor&nbsp;+
         </button>
         {inputFields.length > 1 && (
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => handleRemoveFields(-1)}
-          >
-            Remove&nbsp;Actor&nbsp;-
-          </button>
+            <ModalDelete
+                className="btn btn-danger"
+                textBody="Are you sure to delete this actor?"
+                btnText="Remove&nbsp;Actor&nbsp;-"
+                triggerAction={() => handleRemoveFields(-1)}
+            />
         )}
       </div>
     </div>

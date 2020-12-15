@@ -45,6 +45,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .list-group-item {
@@ -198,6 +202,9 @@ label {
   margin-top: 10px;
 }
 
+.table {
+  word-break: break-word;
+}
 
 .table td, .table th {
   text-align: center;
@@ -221,4 +228,10 @@ label {
 .upload-container {
   display: flex;
   flex-direction: column;
+  max-width: 200px;
 }
+
+.list-category {
+  word-break: break-word;
+}
+

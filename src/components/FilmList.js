@@ -24,6 +24,7 @@ import UploadIcon from "../images/upload.svg"
 import SortIcon from "../images/sort.svg"
 import ResetSortIcon from "../images/reset-sort.svg"
 import AlertError from "./alerts/AlertError"
+import ModalDelete from "./modals/ModalDelete";
 
 export default function FilmsList() {
   const [file, setFile] = useState("")
@@ -78,8 +79,7 @@ export default function FilmsList() {
   const removeAllFilms = () => {
     setLoading(true)
     FilmDataService.deleteAll()
-      .then((response) => {
-        console.log(response.data)
+      .then(() => {
         refreshList()
       })
       .catch((e) => {
@@ -88,6 +88,7 @@ export default function FilmsList() {
   }
 
   const serchQueryMethod = () => {
+    setErrEmpty()
     setSearched(true)
     if (serchQuery !== null && serchQuery.length === 0) {
       setSearched(false)
@@ -114,7 +115,8 @@ export default function FilmsList() {
           setLoading(false)
         })
         .catch((e) => {
-          console.log(e)
+          setErr(true)
+          setErrData(e.response.data.message)
           setLoading(false)
         })
     }
@@ -157,6 +159,7 @@ export default function FilmsList() {
   }
 
   const sendFile = () => {
+    setErrEmpty()
     const formData = new FormData()
     formData.append("upload", file)
     FilmDataService.upload(formData)
@@ -168,7 +171,7 @@ export default function FilmsList() {
       })
       .catch((e) => {
         setErr(true)
-        setErrData(e.response.data)
+        setErrData(e.response.message)
         FilmDataService.getAll().then((response) => setFilms(response.data))
       })
     hiddenFileInput.current.value = ""
@@ -186,11 +189,10 @@ export default function FilmsList() {
   const expressionPublish = (tempPublish) =>
     !tempPublish ? "Pending" : "Published"
 
-  console.log(errData)
 
   return (
     <div className="list row">
-      {err && <AlertError data={errData} setErrEmpty={setErrEmpty} />}
+      {err && <AlertError className="col-md-12" data={errData} setErrEmpty={setErrEmpty} />}
       <div className="col-md-12">
         <div className="input-group mb-3">
           <input
@@ -304,18 +306,16 @@ export default function FilmsList() {
             ))}
         </ul>
         {films.length > 0 && (
-          <button
-            type="button"
-            className="m-3 btn btn-sm btn-danger"
-            onClick={removeAllFilms}
-          >
-            Remove All
-          </button>
+            <ModalDelete
+                textBody="Are you sure to delete delete all movies?"
+                btnText="Remove all"
+                triggerAction={removeAllFilms}
+            />
         )}
       </div>
       <div className="col-md-6">
         {currentFilm ? (
-          <div>
+          <div className="list-film">
             <h4>Film</h4>
             <ListCategory
               title="Title"
@@ -409,10 +409,10 @@ const ActionGroup = ({ films, serchQuery, searched, loading }) => {
 
   if (films.length === 0 && !serchQuery && !searched) {
     return (
-      <div className="action-group">
+      <Link to="/add" className="action-group">
         <img src={AddFilm} alt="" className="list-icon" />
         Please add new Film...
-      </div>
+      </Link>
     )
   }
 

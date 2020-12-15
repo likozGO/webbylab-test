@@ -11,6 +11,8 @@ import AlertSuccess from "./alerts/AlertSuccess"
 import StatusPending from "../images/pending.svg"
 import StatusPublished from "../images/published.svg"
 import ActorOption from "./options/ActorOption"
+import ModalDelete from "./modals/ModalDelete";
+import hasDublicates from "./methods/hasDublicates";
 
 export default function Film() {
   const [currentFilm, setFilm] = useState({
@@ -67,7 +69,6 @@ export default function Film() {
   const onChangeStar = (e) => {
     const stars = e
 
-    console.log(stars)
 
     setFilm((prevState) => ({
       ...prevState,
@@ -81,7 +82,6 @@ export default function Film() {
         setFilm(() => ({
           ...response.data,
         }))
-        console.log(response.data)
       })
       .catch((e) => {
         console.log(e)
@@ -126,22 +126,34 @@ export default function Film() {
     } else if (currentFilm.release == null) {
       setErr(true)
       setErrData("Release date is empty")
+    }else if (hasDublicates(currentFilm.stars)) {
+      setErr(true)
+      setErrData("Some stars are duplicate")
     } else {
-      FilmDataService.update(currentFilm.id, currentFilm)
-        .then((response) => {
-          console.log(response.data)
-          setMessage("The film was updated successfully!")
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+      FilmDataService.findDuplicates(currentFilm)
+          .then(response => {
+            if (response.data.length > 0) {
+              setErr(true)
+              setErrData("This film already in film list!")
+            } else {
+              FilmDataService.update(currentFilm.id, currentFilm)
+                  .then((response) => {
+                    setMessage("The film was updated successfully!")
+                  })
+                  .catch((e) => {
+                    console.log(e)
+                  })
+            }
+          }).catch((e) => {
+              setErr(true)
+              setErrData(e.response.data.message)
+            })
     }
   }
 
   const deleteFilm = () => {
     FilmDataService.delete(currentFilm.id)
       .then((response) => {
-        console.log(response.data)
         history.push("/films")
       })
       .catch((e) => {
@@ -207,13 +219,12 @@ export default function Film() {
               Publish
             </button>
           )}
-          <button
-            type="button"
-            className="badge badge-danger mr-2"
-            onClick={deleteFilm}
-          >
-            Delete
-          </button>
+          <ModalDelete
+              className="badge badge-danger mr-2"
+              textBody="Are you sure to delete this movie?"
+              btnText="Delete"
+              triggerAction={deleteFilm}
+          />
           <button type="submit" className="badge badge-success">
             Update
           </button>

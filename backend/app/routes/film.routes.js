@@ -9,9 +9,6 @@ module.exports = (app) => {
   // Retrieve all Films
   router.get("/", films.findAll)
 
-  // Retrieve all published Films
-  router.get("/published", films.findAllPublished)
-
   // Retrieve a single Film with id
   router.get("/:id", films.findOne)
 
@@ -23,6 +20,9 @@ module.exports = (app) => {
 
   // Create a new Film
   router.delete("/", films.deleteAll)
+
+  // Find all duplicates Films
+  router.post("/duplicates", films.findDuplicates)
 
   // Upload txt and parse data
   router.post("/upload", films.upload)
