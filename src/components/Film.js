@@ -137,7 +137,7 @@ export default function Film() {
               setErrData("This film already in film list!")
             } else {
               FilmDataService.update(currentFilm.id, currentFilm)
-                  .then((response) => {
+                  .then(() => {
                     setMessage("The film was updated successfully!")
                   })
                   .catch((e) => {
@@ -153,7 +153,7 @@ export default function Film() {
 
   const deleteFilm = () => {
     FilmDataService.delete(currentFilm.id)
-      .then((response) => {
+      .then(() => {
         history.push("/films")
       })
       .catch((e) => {
